@@ -3,9 +3,7 @@ package spatutorial.client.services
 import diode._
 import diode.react._
 import org.querki.jquery
-import spatutorial.client.components.rubix.bootstrap._
-import spatutorial.client.components.rubix.gui._
-import org.querki.jquery._
+import com.usableapps.components.rubix.bootstrap._
 
 
 /**

@@ -3,9 +3,9 @@ package spatutorial.client
 import japgolly.scalajs.react.ReactDOM
 import japgolly.scalajs.react.extra.router._
 import org.scalajs.dom
-import spatutorial.client.components.rubix.bootstrap.SidebarMixin
-import spatutorial.client.components.rubix.gui.{Location, Dashboard}
-import spatutorial.client.components.rubix.gui.Location._
+import com.usableapps.components.rubix.bootstrap.SidebarMixin
+import com.usableapps.components.rubix.gui.{Location, Dashboard}
+import com.usableapps.components.rubix.gui.Location._
 import spatutorial.client.logger._
 
 import scala.scalajs.js
