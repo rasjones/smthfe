@@ -1,0 +1,23 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                                 controllers.Application.index
+GET     /app/dashboard                    controllers.Application.index
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/fonts/*file               controllers.Assets.at(path="/public/lib/font-awesome/fonts", file)
+GET     /assets/*file                     controllers.Assets.at(path="/public", file)
+GET     /imgs/*file                       controllers.Assets.at(path="/public/imgs", file)
+GET     /video/*file                      controllers.Assets.at(path="/public/video", file)
+GET     /locales/*file                    controllers.Assets.at(path="/public/locales", file)
+GET     /favicons/*file                   controllers.Assets.at(path="/public/favicons", file)
+
+
+# Autowire calls
+POST    /api/*path                        controllers.Application.autowireApi(path: String)
+
+# Logging
+POST /logging                             controllers.Application.logging
