@@ -1,4 +1,4 @@
-package spatutorial.client.services
+package com.smoothpay.client.services
 
 import diode.ActionResult._
 import diode.RootModelRW

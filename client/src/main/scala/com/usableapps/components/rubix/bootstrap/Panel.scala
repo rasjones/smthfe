@@ -1,6 +1,7 @@
 package com.usableapps.components.rubix.bootstrap
 
 
+import scala.scalajs._
 import japgolly.scalajs.react.vdom.prefix_<^._
 import japgolly.scalajs.react._
 import org.scalajs.dom.html.Div
@@ -109,25 +110,28 @@ object PanelHeader {
 
 object PanelBody {
 
-  case class Props(`class` : Option[String] = None, noRadius : Boolean = false)
+  case class Props(`class` : Option[String] = None, noRadius : Boolean = false, paddingTop : Option[Int] = None,
+                   pading : Option[Int] = None)
 
   val component = ReactComponentB[Props]("panel-body")
     .stateless
     .render { $ =>
-
       <.div(
         ^.classSet1("rubix-panel-body",
           $.props.`class`.getOrElse("") -> $.props.`class`.isDefined,
           "noRadius" -> $.props.noRadius
         ),
+        ^.paddingTop := $.props.paddingTop,
+        ^.padding := $.props.pading,
         $.propsChildren
       )
 
     }.build
 
-  def apply(`class` : Option[String] = None, noRadius : Boolean = false,
+  def apply(`class` : Option[String] = None, noRadius : Boolean = false, paddingTop : Option[Int] = None,
+            padding : Option[Int] = None,
             ref: js.UndefOr[String] = "", key: js.Any = {})(children : ReactElement*) =
-    component.set(key, ref)(Props(`class`, noRadius), children: _*)
+    component.set(key, ref)(Props(`class`, noRadius, paddingTop, padding), children: _*)
 
 }
 
@@ -142,7 +146,7 @@ object Panel {
       <.div(
         ^.classSet1("rubix-panel",
           $.props.`class`.getOrElse("") -> $.props.`class`.isDefined,
-          "noRadius" -> $.props.horizontal
+          "horizontal" -> $.props.horizontal
         ),
         <.div(
           $.propsChildren

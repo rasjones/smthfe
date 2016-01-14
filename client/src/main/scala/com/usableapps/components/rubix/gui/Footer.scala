@@ -1,12 +1,12 @@
 package com.usableapps.components.rubix.gui
 
+import com.smoothpay.client.location.Location.Page
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.extra.router.RouterCtl
 import japgolly.scalajs.react.vdom.prefix_<^._
 import org.scalajs.dom
 import org.scalajs.dom.document
 import com.usableapps.components.rubix.bootstrap._
-import com.usableapps.components.rubix.gui.Location.Page
 
 /**
   * Created by uenyioha on 12/27/15.

@@ -1,4 +1,4 @@
-package spatutorial.client.logger
+package com.smoothpay.client.logger
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSName

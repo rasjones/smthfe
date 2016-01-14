@@ -145,10 +145,10 @@ object Settings {
         ProvidedJS / "js/bower_components/blueimp-gallery/js/blueimp-gallery.js",
         ProvidedJS / "js/vendor/p-scrollbar/src/perfect-scrollbar.js" dependsOn "js/common/rubix-bootstrap/rubix-bootstrap.js",
         //    ProvidedJS / "js/bower_components/react/react-with-addons.js",
-        ProvidedJS / "js/vendor/datatables/datatables.js",
+        ProvidedJS / "js/vendor/datatables/datatables.js" dependsOn "jquery.js",
         //    ProvidedJS / "js/common/react-router/react-router.js",
         ProvidedJS / "js/common/react-l20n/react-l20n.js" dependsOn "react-with-addons.js" ,
-        ProvidedJS / "js/common/rubix-bootstrap/rubix-bootstrap.js" dependsOn "jquery.js" dependsOn "js/vendor/d3/d3.js",
+        ProvidedJS / "js/common/rubix-bootstrap/rubix-bootstrap.js" dependsOn "jquery.js" dependsOn "js/vendor/d3/d3.js" dependsOn "js/common/rubix/rubix.js",
         //    ProvidedJS /"/maps.google.com/maps/api/js?sensor=true",
         ProvidedJS / "js/vendor/gmaps/gmaps.js",
         ProvidedJS / "js/vendor/bootstrap/bootstrap.js" dependsOn "jquery.js",
@@ -181,7 +181,7 @@ object Settings {
         ProvidedJS / "js/vendor/timeline/timeline.js",
         ProvidedJS / "js/vendor/holder/holder.js",
         ProvidedJS / "js/bower_components/c3/c3.js",
-        ProvidedJS / "js/common/rubix/rubix.js",
+        ProvidedJS / "js/common/rubix/rubix.js" dependsOn "jquery.js",
         ProvidedJS / "js/common/globals.js"
   ))
 }

@@ -1,12 +1,13 @@
-package spatutorial.client
+package com.smoothpay.client
 
+import com.smoothpay.client.location.Location
+import com.smoothpay.client.location.Location._
+import com.smoothpay.client.logger.log
 import japgolly.scalajs.react.ReactDOM
 import japgolly.scalajs.react.extra.router._
 import org.scalajs.dom
 import com.usableapps.components.rubix.bootstrap.SidebarMixin
-import com.usableapps.components.rubix.gui.{Location, Dashboard}
-import com.usableapps.components.rubix.gui.Location._
-import spatutorial.client.logger._
+import com.smoothpay.client.gui.SPDashboard
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSExport
@@ -18,7 +19,7 @@ object SPAMain extends js.JSApp {
       import dsl._
 
       values.map ( e =>
-        staticRoute(e.routerPath, e) ~> renderR(r => SidebarMixin(Dashboard(router = r, page = e)))
+        staticRoute(e.routerPath, e) ~> renderR(r => SidebarMixin(SPDashboard(router = r, page = e)))
       ).reduce(_ | _)
 
     }
@@ -29,7 +30,7 @@ object SPAMain extends js.JSApp {
 
     // wrap/connect components to the circuit
     ( trimSlashes
-      | staticRoute(root, Location.default) ~> renderR(ctl => SidebarMixin(Dashboard(ctl, Location.default)))
+      | staticRoute(root, Location.default) ~> renderR(ctl => SidebarMixin(SPDashboard(ctl, Location.default)))
       | routes
       )
       .notFound(redirectToPage(Location.default)(Redirect.Replace))
@@ -40,7 +41,7 @@ object SPAMain extends js.JSApp {
   // base layout for all pages
   def layout(c: RouterCtl[Page], r: Resolution[Page]) = {
 
-    SidebarMixin(Dashboard(c, r.page, None))
+    SidebarMixin(SPDashboard(c, r.page, None))
 
   }
 

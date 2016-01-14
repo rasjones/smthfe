@@ -21,7 +21,7 @@ object BlankBody {
                               PanelContainer()()(
                                 Panel()(
                                   PanelBody(`class` = Some("text-center"))(
-                                    <.p("BLANK PAGE")
+                                    <.p("UNDER CONSTRUCTION")
                                   )
                                 )
                               )

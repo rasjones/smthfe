@@ -1,16 +1,22 @@
-package com.usableapps.components.rubix.gui
+package com.smoothpay.client.gui
 
+/**
+ * Created by uenyioha on 1/3/16.
+ */
+
+import com.smoothpay.client.location.Location
 import com.smoothpay.client.location.Location.Page
+import com.usableapps.components.rubix.bootstrap._
+import com.usableapps.components.rubix.gui.{Footer, Header}
 import japgolly.scalajs.react.ReactComponentB
 import japgolly.scalajs.react.extra.router.RouterCtl
 import japgolly.scalajs.react.vdom.prefix_<^._
-import com.usableapps.components.rubix.bootstrap._
 
 
 /**
  * Created by uenyioha on 1/2/16.
  */
-object Dashboard {
+object SPDashboard {
 
   case class Props(router: RouterCtl[Page], page: Page, open: Boolean = true, `class` : Option[String] = None)
 
@@ -37,7 +43,8 @@ object Dashboard {
     }
     .build
 
-  def apply(router: RouterCtl[Page], page: Page, `class` : Option[String] = None)(open: Boolean = true) = component(Props(router, page, open, `class`))
+  def apply(router: RouterCtl[Page], page: Page, `class` : Option[String] = None)(open: Boolean = true)
+                    = component(Props(router, page, open, `class`))
 }
 
 object Avatar {
@@ -63,7 +70,7 @@ object Avatar {
               ),
               <.div(
                 Progress(id = Some("demo-progress"), value = 30, min = 0, max = 100, maybeColor = Some("#ffffff")),
-                <.div(p.props.router.link(???)(
+                <.div(p.props.router.link(Location.Balance)(
                   Icon(id = Some("demo-icon"), bundle=Some("fontello"), glyph=Some("lock-5"))
                 ))
               )
@@ -90,10 +97,19 @@ object SidebarBar {
         )()
       }
 
+      val (first, rest) = Location.values.splitAt(2)
+
       Sidebar(sidebar = 0, active = true )(
+        <.div(^.`class` := "sidebar-header", "GENERAL"),
         <.div(^.`class` := "sidebar-nav-container",
           SidebarNav(mb = Some(0))(
-            Location.values map ??? : _*
+            first map menuItem : _*
+          )
+        ),
+        <.div(^.`class` := "sidebar-header", "TRANSACTIONS"),
+        <.div(^.`class` := "sidebar-nav-container",
+          SidebarNav(mb = Some(0))(
+            rest map menuItem : _*
           )
         )
       )
@@ -108,7 +124,6 @@ object SidebarBar {
           Grid()(
             Row()(
               Col(xs = 12)(
-                <.div(^.`class` := "sidebar-header", "PAGES"),
                 menu(props)
               )
             )

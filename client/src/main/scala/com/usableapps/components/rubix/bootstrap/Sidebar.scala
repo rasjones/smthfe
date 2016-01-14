@@ -4,16 +4,16 @@ package com.usableapps.components.rubix.bootstrap
   * Created by uenyioha on 12/27/15.
   */
 
-import com.usableapps.components.rubix.facades.Modernizr
+import com.smoothpay.client.gui.SPDashboard
+import com.smoothpay.client.location.Location._
+import com.smoothpay.client.services.{AppCircuit, SidebarRepositionState, SidebarOpenState}
+import com.usableapps.components.rubix.facades.{JQueryXtras, Modernizr}
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.extra.router.RouterCtl
 import japgolly.scalajs.react.vdom.prefix_<^._
 import org.querki.jquery._
 import org.scalajs.dom
 import org.scalajs.dom.raw.HTMLElement
-import com.usableapps.components.rubix.gui.Dashboard
-import com.usableapps.components.rubix.gui.Location._
-import spatutorial.client.services.{SidebarChangeState, AppCircuit, SidebarOpenState, SidebarRepositionState}
 
 import scala.language.implicitConversions
 import scala.scalajs.js
@@ -29,16 +29,6 @@ case class SidebarOpenStateEvent(params: SidebarOpenState) extends SidebarEvent 
 case class SidebarChangeStateEvent(open: Boolean) extends SidebarEvent { override def toString = "sidebar" }
 
 
-@js.native
-trait JQueryExtraFunctions extends JQuery {
-  def perfectScrollbar(`object`: js.Any) : HTMLElement = js.native
-  def animate(properties: js.Any, duration: js.Any = ???, easing: String = ???, complete: js.Function = ???): JQuery = js.native
-}
-
-object JQueryXtras {
-  implicit def newFxns (jq: JQuery) : JQueryExtraFunctions  = jq.asInstanceOf[JQueryExtraFunctions]
-}
-
 object SidebarMixin {
 
   def openState = if (!Modernizr.touch)
@@ -51,7 +41,7 @@ object SidebarMixin {
 
   case class State(open: Boolean)
 
-  case class Props(ComposedComponent : (Boolean) => ReactComponentU[Dashboard.Props, Unit, Unit, TopNode])
+  case class Props(ComposedComponent : (Boolean) => ReactComponentU[SPDashboard.Props, Unit, Unit, TopNode])
 
   class Backend($ : BackendScope[Props, State]) {
 
@@ -92,7 +82,7 @@ object SidebarMixin {
                     }
                   ).build
 
-  def apply(ComposedComponent : (Boolean) => ReactComponentU[Dashboard.Props, Unit, Unit, TopNode]) =
+  def apply(ComposedComponent : (Boolean) => ReactComponentU[SPDashboard.Props, Unit, Unit, TopNode]) =
     component(Props(ComposedComponent))
 }
 

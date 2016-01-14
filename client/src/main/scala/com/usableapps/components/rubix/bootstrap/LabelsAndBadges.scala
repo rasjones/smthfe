@@ -18,7 +18,7 @@ private object LBCommon {
     val fxn = (st : String) => `type` + "-" + st.trim
     val ret = styles.map(fxn)
 
-    `type` + ret.mkString(" ") + " "
+    `type` + " " + ret.mkString(" ") + " "
   }
 
   def `b-mixin`(`class`: Option[String], bsStyle : Option[String],
@@ -26,7 +26,7 @@ private object LBCommon {
     val classString = genClasses(bsStyle, `type`)
 
     <.span(
-      ^.`class` := classString + `class`,
+      ^.`class` := classString + `class`.getOrElse(""),
       propsChildren
     )
   }

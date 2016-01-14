@@ -1,3 +1,4 @@
+import com.typesafe.sbt.SbtNativePackager.autoImport._
 import sbt.Keys._
 import sbt.Project.projectToRef
 
@@ -40,6 +41,7 @@ lazy val client: Project = (project in file("client"))
     testFrameworks += new TestFramework("utest.runner.Framework")
   )
   .enablePlugins(ScalaJSPlugin, ScalaJSPlay)
+  .disablePlugins(DockerPlugin, JavaAppPackaging)
   .dependsOn(sharedJS)
 
 // Client projects (just one in this case)
@@ -58,9 +60,15 @@ lazy val server = (project in file("server"))
     scalaJSProjects := clients,
     pipelineStages := Seq(scalaJSProd),
     // compress CSS
-    LessKeys.compress in Assets := true
+    LessKeys.compress in Assets := true,
+      maintainer := "Ugo Enyioha",
+      packageSummary := "SmoothPay Frontend Server",
+      packageDescription := "A Docker Service",
+      packageName := "smoothpay-fe",
+      dockerRepository := Some("smoothpay-registry.cloudapp.net:5000/uenyioha"),
+      dockerExposedPorts := Seq(9000)
   )
-  .enablePlugins(PlayScala)
+  .enablePlugins(PlayScala, JavaAppPackaging, DockerPlugin)
   .disablePlugins(PlayLayoutPlugin) // use the standard directory layout instead of Play's custom
   .aggregate(clients.map(projectToRef): _*)
   .dependsOn(sharedJVM)

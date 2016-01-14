@@ -1,4 +1,4 @@
-package spatutorial.client
+package com.smoothpay.client
 
 package object logger {
   private val defaultLogger = LoggerFactory.getLogger("Log")
