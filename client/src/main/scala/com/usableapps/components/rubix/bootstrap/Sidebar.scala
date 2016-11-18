@@ -6,8 +6,9 @@ package com.usableapps.components.rubix.bootstrap
 
 import com.smoothpay.client.gui.SPDashboard
 import com.smoothpay.client.location.Location._
-import com.smoothpay.client.services.{AppCircuit, SidebarRepositionState, SidebarOpenState}
+import com.smoothpay.client.services.{AppCircuit, SidebarOpenState, SidebarRepositionState}
 import com.usableapps.components.rubix.facades.{JQueryXtras, Modernizr}
+import diode.ModelRO
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.extra.router.RouterCtl
 import japgolly.scalajs.react.vdom.prefix_<^._
@@ -32,7 +33,7 @@ case class SidebarChangeStateEvent(open: Boolean) extends SidebarEvent { overrid
 object SidebarMixin {
 
   def openState = if (!Modernizr.touch)
-                      if (dom.localStorage.getItem("sidebar-open-state") == "true")
+                      if (dom.window.localStorage.getItem("sidebar-open-state") == "true")
                         true
                       else
                         false
@@ -50,7 +51,7 @@ object SidebarMixin {
 
         $.modState(s => State(open = !s.open)).runNow()
 
-        dom.localStorage.setItem("sidebar-open-state", s"$openState")
+        dom.window.localStorage.setItem("sidebar-open-state", s"$openState")
       }
     }.runNow()
 
@@ -72,8 +73,8 @@ object SidebarMixin {
                   .renderBackend[Backend]
                   .componentWillMount( f =>
                     Callback {
-                      sidebarOpenStateUnsubscribe = AppCircuit.subscribe(() =>
-                        f.backend.sidebarStateChangeCallback(f.state)(AppCircuit.zoom(_.ui.sidebar.changeState).value.open),
+                      sidebarOpenStateUnsubscribe =
+                        AppCircuit.subscribe (() => f.backend.sidebarStateChangeCallback(f.state)(AppCircuit.zoom(_.ui.sidebar.changeState).value.open),
                                                                                                   _.ui.sidebar.changeState)
                     }
                   )
@@ -171,7 +172,7 @@ object SidebarControlBtn {
                                                                                       _.ui.sidebar.activeSidebar)
                         val scrollToTop = () => {
                           if ($(dom.window).scrollTop() != 0) {
-                            dom.setTimeout( () => {
+                            dom.window.setTimeout( () => {
                                 $("html, body, #body").scrollTop(0)
                                 $(dom.window).scrollTop(0)
                               }, 15
@@ -223,7 +224,7 @@ object Sidebar {
       ),
         cb = Callback {
           if (newLeft != 0) {
-            dom.setTimeout(() => b.modState(s => s.copy(visibility = Some("hidden"))).runNow(), 300)
+            dom.window.setTimeout(() => b.modState(s => s.copy(visibility = Some("hidden"))).runNow(), 300)
           } else {
             sidebarRef(b).foreach { x =>
               val height = $(x).height()
@@ -250,14 +251,14 @@ object Sidebar {
 
     def repositionScrollbar(rps: SidebarRepositionState) = {
 
-        dom.clearTimeout(timer)
+        dom.window.clearTimeout(timer)
 
         sidebarRef(b).foreach { sidebarNode =>
           val scrollTo = rps.top - sidebarNode.offsetTop + sidebarNode.scrollTop
 
           if ($(sidebarNode).find(rps.child_node).length > 0) {
             if (scrollTo > $(dom.window).height() / 2) {
-              timer = dom.setTimeout( () =>
+              timer = dom.window.setTimeout( () =>
                 $(sidebarNode).scrollTop(scrollTo - ($(dom.window).height() / 2) + 100),
                 15
               )
@@ -308,9 +309,8 @@ object Sidebar {
                     .renderBackend[Backend]
                     .componentWillMount(f =>
                       Callback {
-                        sidebarReinitializeUnsubscribe = AppCircuit.subscribe(() =>
-                          f.backend.initializeScrollbar()
-                        )
+                        sidebarReinitializeUnsubscribe =
+                          AppCircuit.subscribe(() => f.backend.initializeScrollbar())
 
                         sidebarDestroyScrollbarUnsubscribe = AppCircuit.subscribe(() =>
                           f.backend.destroyScrollbar()
@@ -336,7 +336,7 @@ object Sidebar {
                           f.backend.initializeScrollbar()
 
                         if(f.props.active) {
-                          dom.setTimeout(
+                          dom.window.setTimeout(
                             () => {
                               AppCircuit.dispatch(SidebarControlBtnEvent(f.props.sidebar))
                                AppCircuit.dispatch(SidebarKeyChangeEvent(f.props.sidebar))
@@ -476,8 +476,8 @@ object SidebarNavItem {
     }
 
     def handleOpenState(state: State)(os: SidebarOpenState): Unit = {
-        dom.clearTimeout(timer)
-        timer = dom.setTimeout(handler = () =>
+        dom.window.clearTimeout(timer)
+        timer = dom.window.setTimeout(handler = () =>
           nodeRef(b).foreach { n =>
             if (os != null && os.open) {
               if (os != null && $(n).find(os.child_node).length > 0) {
@@ -514,7 +514,7 @@ object SidebarNavItem {
     def activateNavItem(props: Props): Unit = {
       if (props.active) {
         emitOpen(true)
-        dom.setTimeout( () => {
+        dom.window.setTimeout( () => {
           b.modState(s => s.copy(active = true)).runNow()
           nodeRef(b).foreach { n =>
             val height = $(n).height()
@@ -596,7 +596,8 @@ object SidebarNavItem {
   }
 
   var sidebarHandleLayoutChangeUnsubscribe : () => Unit = null
-  var sidebarOpenStateUnsubscribe : () => Unit = null
+
+  var sidebarOpenStateUnsubscribe: ((ModelRO[Nothing]) => Unit) => () => Unit = null
 
   val component = ReactComponentB[Props]("sidebar-nav-item")
                     .initialState_P(props =>
@@ -617,7 +618,7 @@ object SidebarNavItem {
                             f.backend.handleLayoutDirChange(AppCircuit.zoom(_.ui.sidebar.layoutDir).value),
                             _.ui.sidebar.layoutDir
                           )
-                        sidebarOpenStateUnsubscribe = AppCircuit.subscribe( () => {
+                      sidebarOpenStateUnsubscribe = AppCircuit.subscribe(() => {
                             val openState = AppCircuit.zoom(_.ui.sidebar.openState).value
                             f.backend.handleOpenState(f.state)(openState)
                           }

@@ -1,7 +1,7 @@
 package com.usableapps.components.rubix.bootstrap
 
 import scalacss.Defaults._
-import scalacss.mutable
+import scalacss.internal.mutable
 
 /**
   * Created by uenyioha on 12/12/15.

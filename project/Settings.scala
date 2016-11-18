@@ -22,22 +22,24 @@ object Settings {
 
   /** Declare global dependency versions here to avoid mismatches in multi part dependencies */
   object versions {
-    val scala = "2.11.7"
-    val scalaDom = "0.8.2"
-    val scalajsReact = "0.10.2"
-    val scalaCSS = "0.3.1"
+    val scala = "2.11.8"
+    val scalaDom = "0.9.1"
+    val scalajsReact = "0.11.3"
+    val scalaCSS = "0.5.1"
     val log4js = "1.4.13"
-    val autowire = "0.2.5"
-    val booPickle = "1.1.0"
-    val diode = "0.3.0"
-    val uTest = "0.3.1"
+    val autowire = "0.2.6"
+    val booPickle = "1.2.5"
+    val diode = "1.1.0"
+    val uTest = "0.4.4"
 
     val react = "0.14.3"
     val jQuery = "2.1.4"
     val bootstrap = "3.3.2"
     val chartjs = "1.0.1"
+    val jqueryFacade = "0.11"
 
     val playScripts = "0.3.0"
+    val silhouette = "3.0.4"
   }
 
   /**
@@ -54,7 +56,9 @@ object Settings {
   val jvmDependencies = Def.setting(Seq(
     "com.vmunier" %% "play-scalajs-scripts" % versions.playScripts,
     "org.webjars" % "font-awesome" % "4.3.0-1" % Provided,
-    "org.webjars" % "bootstrap" % versions.bootstrap % Provided
+    "org.webjars" % "bootstrap" % versions.bootstrap % Provided,
+    "com.mohiva" %% "play-silhouette" % versions.silhouette,
+    "com.mohiva" %% "play-silhouette-testkit" % versions.silhouette % "test"
   ))
 
   /** Dependencies only used by the JS project (note the use of %%% instead of %%) */
@@ -62,14 +66,14 @@ object Settings {
     "com.github.japgolly.scalajs-react" %%% "core" % versions.scalajsReact,
     "com.github.japgolly.scalajs-react" %%% "extra" % versions.scalajsReact,
     "com.github.japgolly.scalacss" %%% "ext-react" % versions.scalaCSS,
-    "com.github.japgolly.scalajs-react" %%% "ext-scalaz71" % versions.scalajsReact,
+    "com.github.japgolly.scalajs-react" %%% "ext-scalaz72" % versions.scalajsReact,
     "com.github.japgolly.scalajs-react" %%% "ext-monocle" % versions.scalajsReact,
     "com.github.japgolly.fork.monocle" %%% "monocle-core" % "1.1.1",
     "com.github.japgolly.fork.monocle" %%% "monocle-macro" % "1.1.1",
     "me.chrons" %%% "diode" % versions.diode,
     "me.chrons" %%% "diode-react" % versions.diode,
     "org.scala-js" %%% "scalajs-dom" % versions.scalaDom,
-    "org.querki" %%% "jquery-facade" % "0.10"
+    "org.querki" %%% "jquery-facade" % versions.jqueryFacade
   ))
 
   /** Dependencies for external JS libs that are bundled into a single .js file according to dependency order */
